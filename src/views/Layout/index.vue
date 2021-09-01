@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="layout">
     <!-- 头部 -->
     <van-nav-bar
       :title="$route.meta.title"
@@ -17,6 +17,7 @@
 
 <script>
 export default {
+  name: 'Layout',
   data () {
     return {
 
@@ -34,5 +35,8 @@ export default {
 </script>
 
 <style scoped>
-
+.layout {
+  padding: 0 10px;
+  padding-bottom: 50px;
+}
 </style>
