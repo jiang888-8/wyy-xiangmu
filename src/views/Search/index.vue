@@ -1,7 +1,6 @@
 <template>
-  <div id="app">
-    <!-- 首页 -->
-    <router-view />
+  <div>
+    搜索
   </div>
 </template>
 
