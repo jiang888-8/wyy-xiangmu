@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <!-- <div class="rem"></div> -->
     <!-- 首页 -->
     <router-view />
   </div>
@@ -24,5 +25,9 @@ export default {
 </script>
 
 <style scoped>
-
+.rem {
+  width: 1rem;
+  height: 2rem;
+  background-color: red;
+}
 </style>

@@ -23,6 +23,18 @@
       :authorName='item.ar[0].name'
       :id='item.id'
       />
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+        <Musicitem v-for="(item,index) in searchList" :key="index"
+        :name='item.name'
+        :authorName='item.ar[0].name'
+        :id='item.id'
+        />
+      </van-list>
     </div>
   </div>
 </template>
@@ -36,7 +48,12 @@ export default {
     return {
       value: '',
       hotSearch: [],
-      searchList: []
+      searchList: [],
+      list: [],
+      loading: false,
+      finished: false,
+      offset: 0,
+      page: 1
     }
   },
 
@@ -65,8 +82,10 @@ export default {
     },
 
     onInput () {
+      this.page = 1
       if (this.value === '') {
         this.searchList = []
+        clearTimeout(this.id)
         return
       }
       if (this.id) {
@@ -78,9 +97,32 @@ export default {
           limit: 10
         })
         this.searchList = res.data.result.songs
-        console.log(this.searchList)
       }, 800)
+    },
+
+    async onLoad () {
+      this.page++
+      // 异步更新数据
+      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
+      // 1.发送请求
+      const res = await getSearchRes({
+        keywords: this.value,
+        limit: 10,
+        offset: (this.page - 1) * 10
+      })
+      console.log(res)
+
+      // 2.保存数据
+      if (res.data.result.songs) {
+        this.searchList.push(...res.data.result.songs)
+        // 3.关闭loading
+        this.loading = false
+      } else {
+        // 4.判断是否加载下一页
+        this.finished = true
+      }
     }
+
   }
 }
 </script>
